@@ -1,39 +1,39 @@
+from typing import Optional
 from data.cliente_model import Cliente
 from data.cliente_sql import *
 from data.util import get_connection
 
-def criar_tabela():
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute(CRIAR_TABELA)
-    conn.commit()
-    conn.close()
+def criar_tabela() -> bool:
 
-def inserir(cliente: Cliente):
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute(INSERIR, (
-        cliente.nome, 
-        cliente.cpf, 
-        cliente.email, 
-        cliente.telefone, 
-        cliente.senha))
-    conn.commit()
-    conn.close()
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(CRIAR_TABELA)
+        return cursor.rowcount > 0
+
+def inserir(cliente: Cliente) -> Optional[int]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(INSERIR, (
+            cliente.nome, 
+            cliente.cpf, 
+            cliente.email, 
+            cliente.telefone, 
+            cliente.senha))
+        return cursor.lastrowid > 0
 
 def obter_todos() -> list[Cliente]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(OBTER_TODOS)
-    tuplas = cursor.fetchall()
+    rows = cursor.fetchall()
     conn.close()
     clientes = [
         Cliente(
-            id=tupla[0], 
-            nome=tupla[1], 
-            cpf=tupla[2],
-            email=tupla[3],
-            telefone=tupla[4],
-            senha=tupla[5]) 
-            for tupla in tuplas]
+            id=row["id"], 
+            nome=row["nome"], 
+            cpf=row["cpf"],
+            email=row["email"],
+            telefone=row["telefone"],
+            senha=row["senha"]) 
+            for row in rows]
     return clientes
