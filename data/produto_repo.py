@@ -12,7 +12,6 @@ def criar_tabela() -> bool:
 
 def inserir(produto: Produto) -> Optional[int]:
     with get_connection() as conn:
-        conn = get_connection()
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
             produto.nome, 

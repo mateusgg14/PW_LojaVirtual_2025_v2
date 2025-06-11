@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="card">
+    <div class="card-body">
+        <h2> Cadastrar produto</h2>
+        <hr>
+        <form action="/admin/produtos/cadastrar" method="post">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do produto" required>
+                <label for="nome">Nome do produto</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descrição do produto" required>
+                <label for="descricao">Descrição do produto</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="preco" name="preco" placeholder="Preço do produto" required>
+                <label for="preco">Preço do produto</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade em estoque" required>
+                <label for="quantidade">Quantidade em estoque</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
